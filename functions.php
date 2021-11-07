@@ -143,7 +143,9 @@ function aabaakwad_scripts() {
 	wp_enqueue_style( 'aabaakwad-style', get_stylesheet_uri(), array(), _S_VERSION );
 	wp_style_add_data( 'aabaakwad-style', 'rtl', 'replace' );
 
-	wp_enqueue_script( 'aabaakwad-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'underscores-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'aabaakwad-navigation', get_template_directory_uri() . '/js/aabaakwad-navigation.js', array(), false, true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -213,8 +215,8 @@ function set_custom_events_sortable_columns( $columns ) {
 }
 */
 
-//Gallery post archive gets all posts
-function search_filter_gallery($query) {
+//Filter Schedule page posts to remove posts marked as Archived
+function aabaakwad_filter_schedule($query) {
     if ( ! is_admin() && $query->is_main_query() ) {
         if ( $query->is_post_type_archive('events')) {
             $query->set( 'tax_query', array(
@@ -228,5 +230,29 @@ function search_filter_gallery($query) {
         }
     }
 }
-add_action( 'pre_get_posts', 'search_filter_gallery' );
- 
+add_action( 'pre_get_posts', 'aabaakwad_filter_schedule' );
+
+//Filter all Resources posts to only include posts marked as Archived
+function aabaakwad_filter_resources($query) {
+    if ( ! is_admin() && $query->is_main_query() ) {
+        if ( $query->is_tax('event_date')) {
+            $query->set( 'tax_query', array(
+				array(
+					'taxonomy' => 'archived',
+					'field'    => 'slug',
+					'terms'    => 'yes'
+				)
+			) );
+        }
+    }
+}
+add_action( 'pre_get_posts', 'aabaakwad_filter_resources' );
+
+//Add custom post Events to the Category Archive query
+function aabaakwad_add_custom_types( $query ) {
+  if( (is_category() || is_tag()) && $query->is_archive() && empty( $query->query_vars['suppress_filters'] ) ) {
+    $query->set( 'post_type', 'events');
+  }
+}
+
+add_action( 'pre_get_posts', 'aabaakwad_add_custom_types' );

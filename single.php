@@ -9,8 +9,8 @@
 
 get_header();
 ?>
-
-	<main id="primary" class="site-main">
+<div class="main-cont">
+	<main id="primary" class="site-main main">
 
 		<?php
 		while ( have_posts() ) :
@@ -34,7 +34,7 @@ get_header();
 		?>
 
 	</main><!-- #main -->
-
+</div>
 <?php
 get_sidebar();
 get_footer();
