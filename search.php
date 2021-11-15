@@ -10,8 +10,8 @@
 get_header();
 ?>
 
-	<main id="primary" class="site-main">
-
+	<div class="main-cont">
+		<main id="primary" class="site-main main">
 		<?php if ( have_posts() ) : ?>
 
 			<header class="page-header">
@@ -22,21 +22,25 @@ get_header();
 					?>
 				</h1>
 			</header><!-- .page-header -->
-
+			<section class="list-cont">
 			<?php
 			/* Start the Loop */
 			while ( have_posts() ) :
 				the_post();
+			?>
+			<article class="list-item__cont">
+				<a href="<?php the_permalink() ?>" class="list-item__link">
+					<div class="list-item__image"><?php echo get_the_post_thumbnail('', 'medium'); ?></div>
 
-				/**
-				 * Run the loop for the search to output the results.
-				 * If you want to overload this in a child theme then include a file
-				 * called content-search.php and that will be used instead.
-				 */
-				get_template_part( 'template-parts/content', 'search' );
-
+					<div class="list-item__title-cont">
+						<h4><?php the_title() ?></h4>
+					</div>
+				</a>
+			</article>
+			
+			<?php
 			endwhile;
-
+			echo '</section>';
 			the_posts_navigation();
 
 		else :
@@ -46,8 +50,7 @@ get_header();
 		endif;
 		?>
 
-	</main><!-- #main -->
-
+		</main><!-- #main -->
+	</div>
 <?php
-get_sidebar();
 get_footer();

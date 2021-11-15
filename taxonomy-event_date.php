@@ -15,21 +15,17 @@ get_header();
 ?>
 <div class="main-cont">
 	<main id="primary" class="site-main main">
-
 		<?php 
-			if ( have_posts() ) : 
-				while (have_posts()) : the_post(); ?>
+			if ( have_posts() ) : ?>
 
-				<header class="page-header">
-					<?php
-					the_title( '<h1 class="page-title">', '</h1>' );
-					the_content();
-					?>
-				</header><!-- .page-header -->
+			<header class="page-header">
+				<?php
+				//the_archive_title( '<h1 class="page-title">', '</h1>' );
+				?>
+				<h1>Archives by Year</h1>
+			</header><!-- .page-header -->
 
 			<?php
-				endwhile;
-			endif;
 			$the_query = new WP_Query( array(
 				'post_type'  => 'events',
 				'tax_query' => array(
@@ -62,6 +58,8 @@ get_header();
 					return strcmp($a['name'], $b['name']);
 				});
 				$terms_array = array_unique($terms_array, SORT_REGULAR);
+				
+				$current_term_id = get_queried_object()->term_id;
 
 			}
 			
@@ -69,39 +67,40 @@ get_header();
 			<section>
 				<div class="filter-btns">
 				<?php foreach( $terms_array as $term ) : ?>
-					<a href="<?= get_term_link($term['id']); ?>"><h3><?= $term['name'] ?></h3></a>
+					<a href="<?= get_term_link($term['id']); ?>" class="<?= ($term['id'] == $current_term_id) ? 'active' : ''  ?>"><h3><?= $term['name'] ?></h3></a>
 				<?php endforeach;?>
 				</div>
 			</section>
-		<?php
+			<?php
 			
-		//Go back to Archives page Loop
-		wp_reset_postdata();	
+			//Go back to Resources page Loop
+			wp_reset_postdata();	
+		endif;
+		
+		/* Go back to Archived posts list
+		/* Start the Loop */
 		if (have_posts()) :
-			/* Start the Loop */
+			echo '<section class="list-cont">';
 			while ( have_posts() ) :
 				the_post();
-				if (have_rows('category_blocks')) :
-					echo '<section class="list-cont list-cont--categories">';
-					while(have_rows('category_blocks')) :
-						the_row();
-			?>
-					<article class="list-item__cont">
-						<a href="<?= get_term_link( get_sub_field('category') ) ?>" class="list-item__link">
-							<div class="list-item__image"><img src="<?= get_sub_field('image')['sizes']['medium']; ?>" alt="<?= get_sub_field('image')['alt'] ?>"></div>
+		?>
+		<article class="list-item__cont">
+			<a href="<?php the_permalink() ?>" class="list-item__link">
+				<div class="list-item__image"><?php echo get_the_post_thumbnail('', 'medium'); ?></div>
+			
+				<div class="list-item__title-cont">
+					<h4><?php the_field('time'); ?></h4>
+					<h4><?php the_title() ?></h4>
+				</div>
+			</a>
+			<?php the_excerpt() ?>
+			<a href="<?php the_permalink() ?>" class="list-item__btn">Learn More</a>
+		</article>
 
-							<div class="list-item__title-cont">
-								<h4><?= get_sub_field('title'); ?></h4>
-							</div>
-						</a>
-						<p><?= get_sub_field('description') ?></p>
-						<a href="<?php the_permalink() ?>" class="list-item__btn">Explore Category</a>
-					</article>
-			<?php 
-					endwhile;
-					echo '</section>';
-				endif;
+		<?php
 			endwhile;
+			echo '</section>';
+			
 
 		else :
 

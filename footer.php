@@ -9,16 +9,28 @@
  * @package aabaakwad
  */
 
+	$the_query = new WP_Query( array(
+		'pagename'  => 'footer-info'
+	) );
+
+
+	if ($the_query->have_posts()) :
+		while ($the_query->have_posts()) :
+		$the_query->the_post();
 ?>
-
-	<footer id="colophon" class="site-footer">
-		<div class="site-info">
-
+	<footer id="colophon" class="site-footer footer">
+		<div class="site-info footer__content">
+			<?php the_content() ?>
 		</div><!-- .site-info -->
 	</footer><!-- #colophon -->
 </div><!-- #page -->
 
-<?php wp_footer(); ?>
+<?php
+		endwhile;
+	endif;
+
+wp_footer(); 
+?>
 
 </body>
 </html>

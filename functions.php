@@ -140,10 +140,23 @@ add_action( 'widgets_init', 'aabaakwad_widgets_init' );
  * Enqueue scripts and styles.
  */
 function aabaakwad_scripts() {
+	
+	wp_enqueue_script( 'jquery' );
+	
+	//Slick carousel styles and scripts
+	wp_enqueue_style( 'slick-style', get_template_directory_uri() . '/inc/slick/slick.css' );
+	//wp_enqueue_style( 'slick-theme-style', get_template_directory_uri() . '/inc/slick/slick-theme.css' );
+	wp_enqueue_script( 'slick-core', get_template_directory_uri() . '/inc/slick/slick.min.js', '', null, true );
+	wp_enqueue_script( 'slick-custom-scripts', get_template_directory_uri() . '/js/slick-custom.js', '', null, true );
+	
+	//Isotope masonry plugin
+	wp_enqueue_script( 'isotope-core', get_template_directory_uri() . '/inc/isotope/isotope.pkgd.min.js', '', null, true );
+	wp_enqueue_script( 'isotope-custom-scripts', get_template_directory_uri() . '/js/isotope-custom.js', '', null, true );
+	
+	//Custom styles
 	wp_enqueue_style( 'aabaakwad-style', get_stylesheet_uri(), array(), _S_VERSION );
 	wp_style_add_data( 'aabaakwad-style', 'rtl', 'replace' );
 
-	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'underscores-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'aabaakwad-navigation', get_template_directory_uri() . '/js/aabaakwad-navigation.js', array(), false, true );
 
@@ -256,3 +269,21 @@ function aabaakwad_add_custom_types( $query ) {
 }
 
 add_action( 'pre_get_posts', 'aabaakwad_add_custom_types' );
+
+//Change words length of all excerpts
+add_filter( 'excerpt_length', function($length) {
+    return 20;
+}, PHP_INT_MAX );
+
+//Filter all Resources posts to only include posts marked as Archived
+//function aabaakwad_filter_gatherings($query) {
+//    if ( ! is_admin() && $query->is_main_query() ) {
+//        if ( $query->is_page('current-gatherings')) {
+//            $query->set( 'orderby', 'meta_value');
+//			$query->set( 'meta_key', 'time');
+//			$query->set( 'order', 'ASC');
+//        }
+//    }
+//	return $query;
+//}
+//add_action( 'pre_get_posts', 'aabaakwad_filter_gatherings' );
