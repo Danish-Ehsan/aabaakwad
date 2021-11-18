@@ -20,7 +20,7 @@ get_header();
 			while ( have_posts() ) :
 				the_post();
 				
-				if (have_rows('carousel_item')) : ?>
+				if (have_rows('carousel_item') && get_field('live_mode_enabled') == 'No') : ?>
 					<section class="homepage__carousel js--homepage-carousel">
 						<?php
 						while (have_rows('carousel_item')) : the_row(); 
@@ -45,7 +45,14 @@ get_header();
 						<?php 
 						endwhile;
 					echo '</section>';
-				endif;
+					
+				elseif (get_field('live_mode_enabled')) : ?>
+					<section class="homepage__videoplayer">
+						<div class="videoplayer__cont">
+							<?php the_field('embed_code') ?>
+						</div>
+					</section>
+				<?php endif;
 				
 				if (have_rows('highlight_item')) : ?>
 					<section class="homepage__highlights list-cont list-cont--homepage">

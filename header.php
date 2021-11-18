@@ -38,9 +38,8 @@
 				<img src="<?php $src = is_front_page() || is_single() || is_archive() ? '/images/aabaakwad-logo-blue.png' : '/images/aabaakwad-logo.png'; echo get_template_directory_uri() . $src ?>" class="custom-logo" alt="aabaakwad">
 			</a>
 		</div><!-- .site-branding -->
-
-		<nav id="site-navigation" class="main-navigation nav">
-			<button class="menu-toggle nav-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'aabaakwad' ); ?></button>
+		<button class="menu-toggle nav-toggle js--nav-btn" aria-controls="primary-menu" aria-expanded="false"></button>
+		<nav id="site-navigation" class="main-navigation nav js--nav">
 			<?php
 			wp_nav_menu(
 				array(
@@ -51,6 +50,6 @@
 				)
 			);
 			
-			//get_search_form() ?>
+			get_search_form() ?>
 		</nav><!-- #site-navigation -->
 	</header><!-- #masthead -->

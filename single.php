@@ -41,8 +41,10 @@ $current_post_ID = get_the_ID();
 		<?php endif; ?>
 			<div class="single-header__title"><h2><?php the_title() ?></h2></div>
 		<?php if (get_field('event_type') && get_field('event_type') != 'N/A') : ?>
-			<h2>Event Type:</h2>
-			<div class="single-header__type"><h2><?= get_field('event_type') ?></h2></div>
+			<div class="single-header__type-cont">
+				<h2>Event Type:</h2>
+				<div class="single-header__type"><h2><?= get_field('event_type') ?></h2></div>
+			</div>
 		<?php endif; 
 			if (get_field('show_register_button') == 'Yes') : ?>
 			<a href="<?= get_home_url() . '/register-form' ?>" class="register-button">Register</a>
@@ -61,11 +63,12 @@ $current_post_ID = get_the_ID();
 		
 			$the_query = new WP_Query( array(
 				'post_type'			=> 'events',
-				'posts_per_page'	=> 5,
+				'posts_per_page'	=> 6,
 				'orderby'			=> 'date'
 			) );
 			
 			if ($the_query->have_posts()) :
+				echo '<h2 class="single-sidebar__title">Other Events</h2>';
 				echo '<sidebar class="single-sidebar">';
 				while ($the_query->have_posts()) : $the_query->the_post(); 
 					if ( get_the_ID() != $current_post_ID ) :

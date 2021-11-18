@@ -3,7 +3,7 @@ jQuery(function($){
 	//console.log('DOM ready');
 	
 	const $sun = $('.js--header-sun');
-	const $currentNav = $('.nav-menu > .current-menu-item > a');
+	const $currentNav = $('.nav__list > .current-menu-item > a');
 	const $allNavItems = $('.menu-item>a');
 	const $header = $('.header');
 	const $logo = $('.custom-logo');
@@ -11,7 +11,7 @@ jQuery(function($){
 	
 	var sunOffset, currentNavOffset, positionDiff, sunTimer, logoOffset, sunWidth;
 	
-	if ( logoSrc.indexOf('-blue') === -1 && !$currentNav.length ) {
+	if ( logoSrc.indexOf('-blue') === -1 && (!$currentNav.length || $(window).width() <= 1200) ) {
 		//console.log('swapping logo');
 		insertPos = logoSrc.indexOf('.png');
 		const newSrc = [logoSrc.slice(0, insertPos), '-blue', logoSrc.slice(insertPos)].join('');
@@ -25,8 +25,9 @@ jQuery(function($){
 		//wait for google font to load
 		document.fonts.ready.then(function() {
 			//console.log('fonts loaded');
-			if ($currentNav.length) {
-				//console.log('current nav');
+			console.log($currentNav.length);
+			if ($currentNav.length && $(window).width() > 1200) {
+				console.log('current nav');
 				sunWidth = $currentNav.width() + 100;
 				sunOffset = $sun.offset().left + $sun.width() / 2;
 				sunScale =  sunWidth / $sun.width();
@@ -53,22 +54,16 @@ jQuery(function($){
 
 			//$allNavItems.hover(mouseIn, mouseOut);
 		 });
-	 });
-	 
-//	 function mouseIn(e) {
-//		 console.log(e);
-//		 clearTimeout(sunTimer);
-//		 var elmDiff = $(this).offset().left + $(this).width() / 2;
-//		 var newPosDiff = sunOffset - elmDiff;
-//		 
-//		 $sun.css('transform', 'translateX(-' + newPosDiff + 'px)');
-//	 }
-//	 
-//	 function mouseOut(e) {
-//		 console.log(e);
-//		 sunTimer = setTimeout(function() {
-//			 $sun.css('transform', 'translateX(0)');
-//		 }, 500);
-//	 }
+	});
+	
+
+	//Mobile nav
+	const $navBtn = $('.js--nav-btn');
+	const $navMenu = $('.js--nav');
+	
+	$navBtn.on('click', function() {
+		$navMenu.toggleClass('nav--visible');
+		$navBtn.toggleClass('nav-toggle--open');
+	});
 	
 }(jQuery));
