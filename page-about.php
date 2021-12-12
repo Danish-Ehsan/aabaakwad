@@ -15,17 +15,18 @@
 get_header();
 ?>
 <div class="main-cont main-cont--align-start">
-	<main id="primary" class="site-main main main--narrow">
-
+	<main id="primary" class="site-main main">
+		
 		<?php
 		while ( have_posts() ) :
 			the_post();
 		?>
+		<header class="entry-header">
+			<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
+		</header><!-- .entry-header -->
+		<div class="twocol">
+		<div class="twocol__main">
 			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-				<header class="entry-header">
-					<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
-				</header><!-- .entry-header -->
-
 				<?php aabaakwad_post_thumbnail(); ?>
 
 				<div class="entry-content">
@@ -43,7 +44,7 @@ get_header();
 			</article><!-- #post-<?php the_ID(); ?> -->
 		<?php
 			if (have_rows('co-presented_by')) :
-				echo '<h1 class="logos__title logos__title--about">Co-presented by</h1>';
+				echo '<h2 class="logos__title logos__title--about">Co-presented by</h2>';
 				echo '<section class="logos__cont">';
 				while (have_rows('co-presented_by')) : the_row();
 					if (get_sub_field('hyperlink')) :
@@ -62,7 +63,7 @@ get_header();
 			endif; 
 
 			if (have_rows('sponsors')) :
-				echo '<h1 class="logos__title logos__title--about">Sponsors</h1>';
+				echo '<h2 class="logos__title logos__title--about">Sponsors</h2>';
 				echo '<section class="logos__cont logos__cont--about">';
 				while (have_rows('sponsors')) : the_row();
 					if (get_sub_field('hyperlink')) :
@@ -78,6 +79,16 @@ get_header();
 					endif;
 				endwhile;
 				echo '</section>';
+			echo '</div>'; //.col-main
+			endif; 
+			if (get_field('contact_info')) : ?>
+			<sidebar class="twocol__sidebar">
+				<div class="sidebar__content">
+					<h2>Contact Info</h2>
+					<?php the_field('contact_info'); ?>
+				</div>
+			</sidebar>
+		<?php 
 			endif;
 		endwhile; // End of the loop.
 		?>

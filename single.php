@@ -21,14 +21,21 @@ $current_post_ID = get_the_ID();
 			$terms_obj = get_the_terms(get_the_ID(), 'event_date');
 
 			$terms = [];
+			$term_slug = [];
 			
 			//Get only Day categories by not including parentless terms
 			foreach ($terms_obj as $term_obj) {
 				if ($term_obj->parent != 0) {
 					$terms[] = $term_obj->name;
+					$term_slugs[] = $term_obj->slug;
 				}
 			}
 		?>
+		<?php if ( !has_term('yes', 'archived') && !empty($terms) ) : ?>
+		<div class="back-link__cont">
+			<a href="<?= get_home_url() . '/current-gatherings#' . $term_slugs[0] ?>" class="back-link">Back to <?= $terms[0] ?></a>
+		</div>
+		<?php endif; ?>
 		<header class="single-header">
 		<?php if ( !empty($terms) || get_field('time')) : ?>
 			<div class="single-header__info">
@@ -39,7 +46,10 @@ $current_post_ID = get_the_ID();
 			?>
 			</div>
 		<?php endif; ?>
-			<div class="single-header__title"><h2><?php the_title() ?></h2></div>
+			<div class="single-header__title">
+				<h2><?php the_title() ?></h2>
+				<?php if (get_field('location')) { echo '<h2>' . get_field('location') . '</h2>'; } ?>
+			</div>
 		<?php if (get_field('event_type') && get_field('event_type') != 'N/A') : ?>
 			<div class="single-header__type-cont">
 				<h2>Event Type:</h2>
@@ -52,7 +62,16 @@ $current_post_ID = get_the_ID();
 		</header>
 		
 		<section class="single-main">
+		<?php if ( get_field('live_mode') == 'Yes' ) : ?>
+			<div class="single-main__video">
+				<div class="single-main__image--livemode js--video-thumbnail" style="background-image: url(<?= get_the_post_thumbnail_url(null, 'large') ?>)"></div>
+				<?= get_field('live_embed_code') ?>
+			</div>
+		<?php elseif ( get_field('archive_embed_code') ) : ?>
+			<div class="single-main__video"><?= get_field('archive_embed_code') ?></div>
+		<?php else : ?>
 			<div class="single-main__image"><?php  the_post_thumbnail('full') ?></div>
+		<?php endif; ?>
 			<div class="single-main__content"><?php the_content() ?></div>
 		</section>
 		

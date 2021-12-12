@@ -22,7 +22,8 @@ get_header();
 				<?php
 				//the_archive_title( '<h1 class="page-title">', '</h1>' );
 				?>
-				<h1>Archives by Year</h1>
+				<!--<h1>Archives by Year</h1>-->
+				<h1 style="margin-bottom: 5rem">Archives</h1>
 			</header><!-- .page-header -->
 
 			<?php
@@ -63,7 +64,7 @@ get_header();
 
 			}
 			
-		?>
+		/*?>
 			<section>
 				<div class="filter-btns">
 				<?php foreach( $terms_array as $term ) : ?>
@@ -71,7 +72,7 @@ get_header();
 				<?php endforeach;?>
 				</div>
 			</section>
-			<?php
+			<?php */
 			
 			//Go back to Resources page Loop
 			wp_reset_postdata();	

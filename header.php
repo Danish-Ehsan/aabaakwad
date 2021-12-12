@@ -22,6 +22,18 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 	
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-0YZ25DYN0K"></script>
+
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-0YZ25DYN0K');
+	</script>
+	
 	<?php wp_head(); ?>
 </head>
 
@@ -35,7 +47,8 @@
 		
 		<div class="site-branding header__logo">
 			<a href="<?= get_home_url() ?>" class="custom-logo-link" rel="home">
-				<img src="<?php $src = is_front_page() || is_single() || is_archive() ? '/images/aabaakwad-logo-blue.png' : '/images/aabaakwad-logo.png'; echo get_template_directory_uri() . $src ?>" class="custom-logo" alt="aabaakwad">
+				<?php /*<img src="<?php $src = is_front_page() || is_single() || is_archive() ? '/images/aabaakwad-logo-blue.png' : '/images/aabaakwad-logo.png'; echo get_template_directory_uri() . $src ?>" class="custom-logo" alt="aabaakwad"> */?>
+				<img src="<?= get_template_directory_uri() . '/images/aabaakwad-logo.png' ?>" class="custom-logo" alt="aabaakwad">
 			</a>
 		</div><!-- .site-branding -->
 		<button class="menu-toggle nav-toggle js--nav-btn" aria-controls="primary-menu" aria-expanded="false"></button>

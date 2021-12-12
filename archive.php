@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying archive pages
+ * The template for displaying the Resources page
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
@@ -8,35 +8,47 @@
  */
 
 get_header();
+
+	function get_category_url_by_slug( $category_slug ) {
+		return get_category_link( get_category_by_slug( $category_slug ) );
+	}
 ?>
-
+<div class="main-cont">
 	<main id="primary" class="site-main main">
-
-		<?php if ( have_posts() ) : ?>
+		<?php 
+			if ( have_posts() ) : ?>
 
 			<header class="page-header">
-				
 				<?php
-				the_archive_title( '<h1 class="page-title">', '</h1>' );
-				the_archive_description( '<div class="archive-description">', '</div>' );
+				//the_archive_title( '<h1 class="page-title">', '</h1>' );
 				?>
+				<!--<h1>Archives by Year</h1>-->
+				<h1 style="margin-bottom: 5rem">Archive</h1>
 			</header><!-- .page-header -->
 
-			<?php
-			/* Start the Loop */
+		<?php
+		/* Start the Loop */
+			echo '<section class="list-cont">';
 			while ( have_posts() ) :
 				the_post();
+		?>
+		<article class="list-item__cont">
+			<a href="<?php the_permalink() ?>" class="list-item__link">
+				<div class="list-item__image"><?php echo get_the_post_thumbnail('', 'medium'); ?></div>
+			
+				<div class="list-item__title-cont">
+					<h4><?php the_field('time'); ?></h4>
+					<h4><?php the_title() ?></h4>
+				</div>
+			</a>
+			<?php the_excerpt() ?>
+			<a href="<?php the_permalink() ?>" class="list-item__btn">Learn More</a>
+		</article>
 
-				/*
-				 * Include the Post-Type-specific template for the content.
-				 * If you want to override this in a child theme, then include a file
-				 * called content-___.php (where ___ is the Post Type name) and that will be used instead.
-				 */
-				get_template_part( 'template-parts/content', get_post_type() );
-
+		<?php
 			endwhile;
-
-			the_posts_navigation();
+			echo '</section>';
+			
 
 		else :
 
@@ -46,7 +58,6 @@ get_header();
 		?>
 
 	</main><!-- #main -->
-
+</div>
 <?php
-get_sidebar();
 get_footer();

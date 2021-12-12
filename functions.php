@@ -151,15 +151,19 @@ function aabaakwad_scripts() {
 	
 	//Isotope masonry plugin
 	wp_enqueue_script( 'isotope-core', get_template_directory_uri() . '/inc/isotope/isotope.pkgd.min.js', '', null, true );
-	wp_enqueue_script( 'isotope-custom-scripts', get_template_directory_uri() . '/js/isotope-custom.js', '', null, true );
+	wp_enqueue_script( 'isotope-custom-scripts', get_template_directory_uri() . '/js/isotope-custom.js', '', '3.0', true );
 	
 	//Custom styles
-	wp_enqueue_style( 'aabaakwad-style', get_stylesheet_uri(), array(), _S_VERSION );
+	wp_enqueue_style( 'aabaakwad-style', get_stylesheet_uri(), array(), '3.9' );
 	wp_style_add_data( 'aabaakwad-style', 'rtl', 'replace' );
 
 	wp_enqueue_script( 'underscores-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
-	wp_enqueue_script( 'aabaakwad-navigation', get_template_directory_uri() . '/js/aabaakwad-navigation.js', array(), false, true );
-
+	wp_enqueue_script( 'aabaakwad-navigation', get_template_directory_uri() . '/js/aabaakwad-navigation.js', array(), '3.0', true );
+	
+	if (is_singular('events')) {
+		wp_enqueue_script( 'single-page-thumbnail', get_template_directory_uri() . '/js/single-page-video.js', array(), _S_VERSION, true );
+	}
+	
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}

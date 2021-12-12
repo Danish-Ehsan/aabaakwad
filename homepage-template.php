@@ -29,10 +29,6 @@ get_header();
 						?>
 
 						<div class="carousel__item-cont">
-							<div class="carousel__item-info">
-								<h2><?php the_sub_field('title') ?></h2>
-								<p><?php the_sub_field('description') ?></p>
-							</div>
 							<?php if ($hyperlink) :
 							echo '<a class="carousel__link" href="' . $hyperlink . '">';
 							endif; ?>
@@ -40,6 +36,10 @@ get_header();
 							<?php if ($hyperlink) :
 							echo '</a>';
 							endif; ?>
+							<div class="carousel__item-info">
+								<h2><?php the_sub_field('title') ?></h2>
+								<p><?php the_sub_field('description') ?></p>
+							</div>
 						</div>
 
 						<?php 
@@ -48,13 +48,17 @@ get_header();
 					
 				elseif (get_field('live_mode_enabled')) : ?>
 					<section class="homepage__videoplayer">
+						<h1 class="videoplayer__title"><?= get_field('title') ?></h1>
+						<div class="videoplayer__subtitle"><?= get_field('subtitle') ?></div>
 						<div class="videoplayer__cont">
 							<?php the_field('embed_code') ?>
 						</div>
 					</section>
-				<?php endif;
+				<?php endif; ?>
 				
-				if (have_rows('highlight_item')) : ?>
+					<a href="<?= get_home_url() . '/current-gatherings' ?>" class="btn btn--gatherings">Explore Current Gathering</a>
+				
+				<?php if (have_rows('highlight_item')) : ?>
 					<section class="homepage__highlights list-cont list-cont--homepage">
 						<?php
 						while (have_rows('highlight_item')) : the_row() ;?>
